@@ -143,21 +143,21 @@ export BAT_PAGER=''
 export BAT_STYLE='plain'
 
 # pure prompt settings
+autoload -U promptinit; promptinit
+prompt pure
 PURE_GIT_UNTRACKED_DIRTY=0
 PURE_CMD_MAX_EXEC_TIME=99999
-setopt PROMPT_SUBST
-autoload -U is-at-least
-TMOUT=1
-if is-at-least 5.1; then
-    # avoid menuselect to be cleared by reset-prompt
-    redraw_tmout() {
-        [ "$WIDGET" = "expand-or-complete" ] && [[ "$_lastcomp[insert]" =~ "^automenu$|^menu:" ]] || zle reset-prompt
-    }
-else
-    # evaluating $WIDGET in TMOUT may crash :(
-    redraw_tmout() { zle reset-prompt }
-fi
-TRAPALRM() { redraw_tmout }
+source /usr/local/opt/kube-ps1/share/kube-ps1.sh
+KUBE_PS1_PREFIX='('
+KUBE_PS1_SUFFIX=')'
+KUBE_PS1_SYMBOL_ENABLE=''
+KUBE_PS1_SEPARATOR=''
+
+function get_cluster_short() {
+  echo "$1" | cut -d / -f2
+}
+KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
+
 # make TAB partially accept autosuggestions
 bindkey "^[[Z" forward-word
 

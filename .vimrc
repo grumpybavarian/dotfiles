@@ -67,7 +67,7 @@ set mouse=a
 set clipboard=unnamed
 
 " relative numbers
-set relativenumber
+set number relativenumber
 
 " highlight current line
 set cursorline
@@ -148,6 +148,7 @@ set incsearch
 
 " remove bad whitespaces on save
 autocmd BufWritePre * :EraseBadWhitespace
+autocmd FileType ruby,python autocmd BufWritePre <buffer> :%s/\($\n\s*\)\+\%$//e
 
 "Speed up <Esc>
 set ttimeout
@@ -173,3 +174,9 @@ set signcolumn=yes
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
+
+" open NERDTree in current directory on Ctrl + T
+nnoremap <C-t> :NERDTreeToggle %<CR>
+
+" cursor moves to previous line if at the beginning + left key
+set ww=<,>,h,l
