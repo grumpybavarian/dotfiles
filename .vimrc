@@ -58,9 +58,7 @@ Plug 'terryma/vim-multiple-cursors'
 call plug#end()
 
 " Colorscheme
-try
-  colorscheme nord
-endtry
+silent! colorscheme nord
 
 " backspace sanity
 set backspace=indent,eol,start
