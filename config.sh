@@ -1,2 +1,3 @@
 #!/bin/sh
-cp -R . $HOME
+set -ex
+cp -r $(dirname "$0")/. $HOME
