@@ -3,11 +3,11 @@ let g:coc_global_extensions = [
     \ 'coc-lists',
     \ 'coc-pairs',
     \ 'coc-floaterm',
-    \ 'coc-cssmodules',
     \ 'coc-yaml',
     \ 'coc-python',
     \ 'coc-explorer',
     \ 'coc-prettier',
+    \ 'coc-highlight',
     \ 'coc-yank',
     \ 'coc-json',
     \ ]

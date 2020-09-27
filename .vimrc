@@ -31,6 +31,10 @@ Plug 'itchyny/lightline.vim'
 " Plug 'flazz/vim-colorschemes'
 Plug 'arcticicestudio/nord-vim'
 
+" Python Syntax Highlighting
+Plug 'vim-python/python-syntax'
+Plug 'Vimjas/vim-python-pep8-indent'
+
 " Surround
 Plug 'tpope/vim-surround'
 
@@ -57,6 +61,10 @@ call plug#end()
 " backspace sanity
 set backspace=indent,eol,start
 
+" indent
+set autoindent
+set smartindent
+
 " set leader key to comma
 let mapleader = ","
 
@@ -78,6 +86,9 @@ colorscheme nord
 " lightline setup
 set laststatus=2
 
+" python improved syntax highlighting
+let g:python_highlight_all = 1
+
 let g:lightline = {
       \ 'colorscheme': 'nord',
       \ 'active': {
@@ -87,8 +98,28 @@ let g:lightline = {
       \              [ 'percent' ],
       \              [ 'filetype'  ] ]
       \ },
+      \ 'component_function': {
+      \   'filename': 'LightLineFilename',
+      \ }
       \ }
 
+function! LightLineFilename()
+	let name = ""
+	let subs = split(expand('%'), "/")
+	let i = 1
+	for s in subs
+		let parent = name
+		if  i == len(subs)
+			let name = parent . '/' . s
+		elseif i == 1
+			let name = s
+		else
+			let name = parent . '/' . strpart(s, 0, 2)
+		endif
+		let i += 1
+	endfor
+  return name
+endfunction
 " use gentle autopairs
 let g:AutoPairsUseInsertedCount = 1
 
@@ -99,6 +130,7 @@ set nocompatible
 " Set to auto read when a file is changed from the outside
 set autoread
 au FocusGained,BufEnter * checktime
+au CursorHold * checktime
 
 " allow git blame toggle
 nmap <expr> <C-b> &filetype ==# 'fugitiveblame' ? "gq" : ":Gblame\r"
@@ -145,6 +177,10 @@ set showtabline=2
 
 " incsearch
 set incsearch
+set hlsearch
+set smartcase
+"This unsets the "last search pattern" register by hitting return
+nnoremap <CR> :noh<CR><CR>
 
 " remove bad whitespaces on save
 autocmd BufWritePre * :EraseBadWhitespace
@@ -158,9 +194,9 @@ set notimeout
 " Persist undo
 set undofile
 "maximum number of changes that can be undone
-set undolevels=9999
+set undolevels=99999
 "maximum number lines to save for undo on a buffer reload
-set undoreload=9999
+set undoreload=99999
 " set location
 set undodir=$HOME/.vimundo//
 
@@ -180,3 +216,11 @@ nnoremap <C-t> :NERDTreeToggle %<CR>
 
 " cursor moves to previous line if at the beginning + left key
 set ww=<,>,h,l
+
+" delete without yanking
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+
+" replace currently selected text with default register
+" without yanking it
+vnoremap <leader>p "_dP

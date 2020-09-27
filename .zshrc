@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/thomasedlich/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -97,12 +97,14 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 	git
+	fzf
         common-aliases
         history-substring-search
         last-working-dir
         z
         you-should-use
         zsh-autosuggestions
+	zsh-autopair
 	kubectl
 	pure
 	autoenv
@@ -111,32 +113,6 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias cat=bat
 export BAT_PAGER=''
@@ -147,14 +123,17 @@ autoload -U promptinit; promptinit
 prompt pure
 PURE_GIT_UNTRACKED_DIRTY=0
 PURE_CMD_MAX_EXEC_TIME=99999
-source /usr/local/opt/kube-ps1/share/kube-ps1.sh
-KUBE_PS1_PREFIX='('
-KUBE_PS1_SUFFIX=')'
-KUBE_PS1_SYMBOL_ENABLE=''
-KUBE_PS1_SEPARATOR=''
+
+if [ -f /usr/local/opt/kube-ps1/share/kube-ps1.sh ]; then
+	source /usr/local/opt/kube-ps1/share/kube-ps1.sh
+	KUBE_PS1_PREFIX='('
+	KUBE_PS1_SUFFIX=')'
+	KUBE_PS1_SYMBOL_ENABLE=''
+	KUBE_PS1_SEPARATOR=''
+fi
 
 function get_cluster_short() {
-  echo "$1" | cut -d / -f2
+  echo ${1:gs/nonrestricted-//} | cut -d / -f2
 }
 KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
 
@@ -163,3 +142,9 @@ bindkey "^[[Z" forward-word
 
 # better highlighting for pastes
 zle_highlight+=(paste:none)
+
+# use extended regex for fzf
+export FZF_DEFAULT_OPS='--extended --hidden'
+export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
+export FZF_CTRL_T_COMMAND='rg --hidden -l ""'
+
