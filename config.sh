@@ -1,3 +1,5 @@
 #!/bin/sh
 set -ex
-cp -r $(dirname "$0")/. $HOME
+echo "source $HOME/dotfiles/.vimrc" >> $HOME/.vimrc
+echo "source $HOME/dotfiles/.zshrc" >> $HOME/.zshrc
+
