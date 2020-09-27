@@ -28,7 +28,6 @@ Plug 'rking/ag.vim'
 Plug 'itchyny/lightline.vim'
 
 " Colorschemes
-" Plug 'flazz/vim-colorschemes'
 Plug 'arcticicestudio/nord-vim'
 
 " Python Syntax Highlighting
@@ -58,6 +57,11 @@ Plug 'terryma/vim-multiple-cursors'
 
 call plug#end()
 
+" Colorscheme
+try
+  colorscheme nord
+endtry
+
 " backspace sanity
 set backspace=indent,eol,start
 
@@ -79,9 +83,6 @@ set number relativenumber
 
 " highlight current line
 set cursorline
-
-" colorscheme
-colorscheme nord
 
 " lightline setup
 set laststatus=2
@@ -164,6 +165,9 @@ let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
+" Show hidden files
+let g:NERDTreeShowHidden = 1
+
 
 " some key mappings for easier saving and quitting
 nmap ,s :w<CR>
