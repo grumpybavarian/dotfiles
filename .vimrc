@@ -6,6 +6,9 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+" AutoSave
+Plug '907th/vim-auto-save'
+
 " Fugitive & git-gutter for git stuff
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -15,7 +18,10 @@ Plug 'scrooloose/nerdtree'
 Plug 'preservim/nerdcommenter'
 
 " Conquer of Completion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'commit': 'abdcaa00f0e11c0a038a552faced916c68107e57'}
+
+" Find And Replace (FAR)
+Plug 'brooth/far.vim'
 
 " FZF
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -146,7 +152,7 @@ function! RipgrepFzf(query, fullscreen)
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 command! -bang -nargs=? -complete=dir HFiles
-  \ call fzf#vim#files(<q-args>, {'source': 'ag --hidden --ignore .git -g ""'}, <bang>0)
+  \ call fzf#vim#files(<q-args>, {'source': 'ag --hidden --ignore .git -U -g ""'}, <bang>0)
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 " nenoremap <C-f> RipgrepFzf()
 map <C-g> :RG<CR>
@@ -226,3 +232,10 @@ vnoremap <leader>d "_d
 " replace currently selected text with default register
 " without yanking it
 vnoremap <leader>p "_dP
+
+" enable undo of find & replace
+let g:far#enable_undo=1
+"
+" enable AutoSave on Vim startup
+let g:auto_save = 1
+
