@@ -239,3 +239,5 @@ let g:far#enable_undo=1
 " enable AutoSave on Vim startup
 let g:auto_save = 1
 
+" enable show number of matches
+set shortmess-=S
